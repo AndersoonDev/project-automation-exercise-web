@@ -42,7 +42,7 @@ describe('Funcionalidade de Login', () => {
         cy.url().should('be.equal', 'https://automationexercise.com/login')
     });
 
-    it.only('Registrar um usuário com email existente', () => {
+    it('Registrar um usuário com email existente', () => {
         cy.url().should('be.equal', 'https://automationexercise.com/')
         cy.get('[href="/login"]').click()
         cy.get('[type="text"]').type('Anderson')
@@ -50,4 +50,23 @@ describe('Funcionalidade de Login', () => {
         cy.get('[action="/signup"] > .btn').click()
         cy.get('[style="color: red;"]').should('have.text', 'Email Address already exist!')
     });
+
+    it('Deve enviar uma mensagem com sucesso para contate-nos', () => {
+        cy.get('[href="/contact_us"]').click()
+        cy.get('div.contact-form > .title').should('contain', 'Get In Touch')
+        cy.get(':nth-child(2) > .form-control').type('Anderson')
+        cy.get(':nth-child(3) > .form-control').type('teste@teste.com')
+        cy.get(':nth-child(4) > .form-control').type('Assunto')
+        cy.get('#message').type('mensagem teste')
+        cy.get('[type="file"]').selectFile('teste.bmp')
+        cy.get(':nth-child(7) > .btn').click()
+        cy.get('.status').should('contain', 'Success!')
+    });
+
+    it.only('Deve acessar a página dos Casos de teste', () => {
+        cy.url().should('be.equal', 'https://automationexercise.com/')
+        cy.get(':nth-child(5) > [href="/test_cases"]').click()
+        cy.get('b').should('contain', 'Test Cases')
+    });
+    
 })
